@@ -109,6 +109,10 @@ $(function(){
     $('#reset').click(function(){
         chrome.storage.sync.set({'allData': {'classes': [], 'activityColorMap': {}}});
     })
+    $('#openWindow').click(function(){
+        chrome.tabs.create({url: chrome.extension.getURL('popup.html#window')});
+    })
+
 
     $('#classTable').on('reorder-row.bs.table', function (e, newRankedClasses){
         newRankedClasses.forEach((item, i) => {
