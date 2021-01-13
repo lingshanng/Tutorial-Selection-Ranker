@@ -1,0 +1,27 @@
+body {
+    min-width: 800px;
+    min-height: 500px;
+    padding: 10px;
+}
+
+.bg-green {
+    background-color: #98D7C2;
+}
+
+.bg-red {
+    background-color: #cc3300;
+    color: white;
+}
+
+.bg-orange {
+    background-color: #FAB282;
+}
+
+.bg-yellow {
+    /* background-color: #fffc5e; */
+    background-color: #FFFF81;
+}
+
+.bg-blue {
+    background-color: #82CAFA;
+}

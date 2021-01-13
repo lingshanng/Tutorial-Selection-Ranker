@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Tutorials Selected</title>
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/bootstrap-table.min.css">
+        <link rel="stylesheet" href="assets/css/bootstrap-table-reorder-rows.css">
+        <link rel="stylesheet" href="assets/css/spectrum.min.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div>
+            <button type="button" id="scrape" class="btn btn-primary">Scrape</button>
+            <button type="button" id="reset" class="btn btn-danger">Reset</button>
+            <span style="display: none;"><input id="hidden-picker"/></span>
+        </div>
+        <h1>Tutorials Selected:</h1>
+        <table 
+          id="classTable" 
+          class="table" 
+          data-toggle="table" 
+          data-height="500" 
+          data-use-row-attr-func="true"
+          data-reorderable-rows="true"
+          data-row-style="rowStyle"
+        >
+            <!-- <thead class="thead-dark">
+                <tr>
+                    <th data-field="classId">Class</th>
+                    <th data-field="activity">Module Activity</th>
+                    <th data-field="session">Session</th>
+                    <th data-field="vacancy">Vacancy</th>
+                    <th data-field="rank">Rank</th>
+                    <th data-formatter="colorPickerFormatter" data-cell-style="colorColStyle">Color</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody> -->
+        </table>
+
+        <script src="assets/js/jquery-3.5.1.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-table.min.js"></script>
+        <script src="assets/js/jquery.tablednd.min.js"></script>
+        <script src="assets/js/bootstrap-table-reorder-rows.min.js"></script>
+        <script src="assets/js/spectrum.min.js"></script>
+        <script src="popup.js"></script>
+        
+    </body>
+</html>
