@@ -78,5 +78,18 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
                 select.selectedIndex = rowData.rank-1;
             })
         })
+    } else if (request.action === "applyColor") {
+        chrome.storage.sync.get(function(data){
+            console.log("apply ranking", data);
+            const iframeDoc = document.querySelector("iframe").contentDocument;
+            const rows = iframeDoc.querySelectorAll("table tbody .ps_grid-row");
+            rows.forEach((row, i) => {
+                const activity = row.querySelectorAll(".ps_grid-cell")[1].innerText;
+                var bgdColor = data.allData.activityColorMap[activity];
+                if(bgdColor) {
+                    row.style.backgroundColor = bgdColor;
+                }
+            })
+        })
     }
 });

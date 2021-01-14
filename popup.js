@@ -75,7 +75,12 @@ $(function(){
             chrome.tabs.sendMessage(tabs[0].id, {action: "shiftDialog"});
         })
     })
-
+    $('#applyColor').click(function(){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            chrome.tabs.sendMessage(tabs[0].id, {action: "applyColor"});
+        })
+    })
+    
     $('#classTable').on('reorder-row.bs.table', function (e, newRankedClasses){
         newRankedClasses.forEach((item, i) => {
             item.rank = i+1;
