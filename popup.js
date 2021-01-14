@@ -1,62 +1,10 @@
-const testData = [
-    {
-        "classId": "E02",
-        "activity": "CS2100 Tutorial",
-        "session": "Regular",
-        "vacancy": "20",
-        "rank": 1
-    },
-    {
-        "classId": "T03",
-        "activity": "CS2030s Rec",
-        "session": "Regular",
-        "vacancy": "14",
-        "rank": 2
-    },
-    {
-        "classId": "E04",
-        "activity": "CS2100 Tutorial",
-        "session": "Regular",
-        "vacancy": "30",
-        "rank": 3
-    },
-    {
-        "classId": "G12",
-        "activity": "GEQ1000 Tutorial",
-        "session": "Regular",
-        "vacancy": "22",
-        "rank": 4
-    },
-    {
-        "classId": "E02",
-        "activity": "MA1101R Tutorial",
-        "session": "Regular",
-        "vacancy": "20",
-        "rank": 1
-    },
-    {
-        "classId": "T03",
-        "activity": "CS2044s Rec",
-        "session": "Regular",
-        "vacancy": "14",
-        "rank": 2
-    },
-    {
-        "classId": "E04",
-        "activity": "CS1101 Tutorial",
-        "session": "Regular",
-        "vacancy": "30",
-        "rank": 3
-    }
-]
-
 var _activityColorMap = {}
 var _classData = []
 
 function createActivityColorMap(activities) { // remove
     var colorList = []; 
 
-    $.each(['.sp-palette-row-4', '.sp-palette-row-1', '.sp-palette-row-2', '.sp-palette-row-3'], function(i, selector) {
+    $.each(['.sp-palette-row-3','.sp-palette-row-4', '.sp-palette-row-3', '.sp-palette-row-1'], function(i, selector) {
         var el = $(selector);
         if (el.length) {
             el.first().children().each(function() {
@@ -84,35 +32,44 @@ $(function(){
 
     chrome.storage.sync.get(function(data){
         console.log(data);
-        if(!data.allData || !data.allData.classes || data.allData.classes.length === 0) {
-            createActivityColorMap([...new Set(testData.map(d => d.activity))])
-            chrome.storage.sync.set({'allData': {'classes': testData,'activityColorMap': _activityColorMap}})
-            updateTable(testData, _activityColorMap)
+        if(!data.allData || !data.allData.classes) {
+            chrome.storage.sync.set({'allData': {'classes': [],'activityColorMap': {}}})
         } else {
-            _activityColorMap = data.allData.activityColorMap
-            _classData = data.allData.classes
-            updateTable(data.allData.classes, data.allData.activityColorMap)
+            _activityColorMap = data.allData.activityColorMap;
+            _classData = data.allData.classes;
+            updateTable(data.allData.classes, data.allData.activityColorMap);
         }
     })
 
     
     
     $('#scrape').click(function(){
-        // chrome.tabs.query({url: "https://myedurec.nus.edu.sg/*", active: true, currentWindow: true}, function(tabs){
-        //     if(tabs) {
-        //         chrome.tabs.sendMessage(tabs[0].id, {action: "clickScrape"});
-        //     }
-        // });
-        chrome.storage.sync.set({'allData': {'classes': testData, 'activityColorMap': _activityColorMap}});
-
+        const url = "https://myedurec.nus.edu.sg/*";
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            if(tabs && tabs.length !== 0) {
+                console.log('tabs', tabs)
+                chrome.tabs.sendMessage(tabs[0].id, {action: "clickScrape"});
+            } else {
+                console.log('wrong tab')
+            }
+        })
     });
     $('#reset').click(function(){
         chrome.storage.sync.set({'allData': {'classes': [], 'activityColorMap': {}}});
     })
+    $('#applyRanking').click(function(){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            chrome.tabs.sendMessage(tabs[0].id, {action: "applyRanking"});
+        })
+    })
     $('#openWindow').click(function(){
         chrome.tabs.create({url: chrome.extension.getURL('popup.html#window')});
     })
-
+    $('#shiftDialog').click(function(){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            chrome.tabs.sendMessage(tabs[0].id, {action: "shiftDialog"});
+        })
+    })
 
     $('#classTable').on('reorder-row.bs.table', function (e, newRankedClasses){
         newRankedClasses.forEach((item, i) => {
@@ -135,7 +92,7 @@ function updateActivityColorMap(classData, activityColorMap) {
     })
     
     var colorList = [];
-    $.each(['.sp-palette-row-4', '.sp-palette-row-1', '.sp-palette-row-2', '.sp-palette-row-3'], function(i, selector) {
+    $.each(['.sp-palette-row-3','.sp-palette-row-4', '.sp-palette-row-3', '.sp-palette-row-1'], function(i, selector) {
         var el = $(selector);
         if (el.length) {
             el.first().children().each(function() {
@@ -160,27 +117,33 @@ function updateTable(classData, activityColorMap) {
     $('#classTable').bootstrapTable({data: classData, columns:[
         {
             field: 'classId',
-            title: 'Class'
+            title: 'Class',
+            width: 100
         },
         {
             field: 'activity',
-            title: 'Module Activity'
+            title: 'Activity',
+            width: 100
         },
         {
             field: 'session',
-            title: 'Session'
+            title: 'Session',
+            width: 50
         },
         {
             field: 'vacancy',
-            title: 'Vacancy'
+            title: 'Vacancy',
+            width: 50
         },
         {
             field: 'rank',
-            title: 'Rank'
+            title: 'Rank',
+            width: 50
         },
         {
             field: 'color',
             title: 'Color',
+            width: 50,
             formatter: colorPickerFormatter,
             cellStyle: colorColStyle,
         }],
@@ -246,14 +209,7 @@ function colorColStyle(value, row, index) {
 }
 
 function colorPickerFormatter(value, row, index) {
-    return [
-        // '<input class="color-picker" value="'
-        // +
-        // activityColorMap[row.activity]
-        // +
-        // '" />'
-        '<input class="color-picker" />'
-      ].join('')
+    return '<input class="color-picker" />'
 }
 
 chrome.storage.onChanged.addListener(function(changes, storageName){

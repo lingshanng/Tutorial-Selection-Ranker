@@ -8,10 +8,9 @@
         "48": "assets/img/icon48.png",
         "16": "assets/img/icon16.png"
     },
-    "page_action": {
+    "browser_action": {
         "default_icon": "assets/img/icon16.png",
-        "default_popup": "popup.html",
-        "default_title": "Tutorial Ranking"
+        "default_popup": "popup.html"
     },
 
     "background": {
@@ -21,7 +20,7 @@
 
     "content_scripts": [
         {
-            "matches": ["https://myedurec.nus.edu.sg/*"],
+            "matches": ["https://myedurec.nus.edu.sg/*", "file:///C:/Users/nglin/Downloads/*"],
             "js": ["content.js", "assets/js/jquery-3.5.1.min.js"],
             "css": ["content.css"]
         }
@@ -29,6 +28,7 @@
 
     "permissions": [
         "tabs",
+        "file:///C:/Users/nglin/Downloads/Rank%20Tutorials_Labs.html",
         "https://myedurec.nus.edu.sg/*",
         "storage"
     ]

@@ -1,27 +1,17 @@
 body {
-    min-width: 800px;
+    min-width: 700px;
     min-height: 500px;
     padding: 10px;
 }
 
-.bg-green {
-    background-color: #98D7C2;
+.button-group > button {
+    margin: 10px;
 }
 
-.bg-red {
-    background-color: #cc3300;
-    color: white;
+#instructions {
+    margin-bottom: 15px;
 }
 
-.bg-orange {
-    background-color: #FAB282;
-}
-
-.bg-yellow {
-    /* background-color: #fffc5e; */
-    background-color: #FFFF81;
-}
-
-.bg-blue {
-    background-color: #82CAFA;
+table {
+    font-size: 14px;
 }
