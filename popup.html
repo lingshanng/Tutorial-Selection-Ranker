@@ -37,11 +37,41 @@
                         </button>
                         </div>
                         <div class="modal-body">
-                        Scraping data from website may override existing data. Are you sure you want to continue?
+                        Scraping data from EduRec may override existing data. Are you sure you want to continue?
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal" id="scrape">Confirm</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <button type="button" id="compare" class="btn btn-primary" title="Compare ranking">Compare</button>
+
+                <!-- <button type="button" id="applyRanking" class="btn btn-danger" title="Apply current ranking">Apply</button> -->
+                <!-- Apply Button trigger modal -->
+                <!-- <button type="button" class="btn btn-danger" id="reset">Reset</button> -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#applyModal" title="Apply new ranking">
+                    Apply
+                </button>
+                
+                <!-- Apply Confirmation Modal -->
+                <div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="applyModalLabel">Apply ranking</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        Apply ranking will modify the ranking selection boxes on EduRec. Are you sure you want to continue?
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="applyRanking">Confirm</button>
                         </div>
                     </div>
                     </div>
@@ -74,8 +104,6 @@
                     </div>
                 </div>
 
-                <button type="button" id="compare" class="btn btn-primary" title="Compare ranking">Compare</button>
-                <button type="button" id="applyRanking" class="btn btn-danger" title="Apply current ranking">Apply</button>
                 <button type="button" id="openWindow" class="btn btn-secondary" title="Open page in window">🡭</button>
                 <button type="button" id="shiftDialog" class="btn btn-secondary" title="Shift dialog to the left">❮</button>
 
@@ -84,11 +112,14 @@
             <!-- Instructions collapse card content -->
             <div class="collapse" id="instructions">
                 <div class="card card-body">
-                    <p>1. On EduRec, go to "Select Tutorials/Labs" and select your classes</p>
-                    <p>2. Click "Rank Tutorials/Lab"</p>
-                    <p>3. Open this extension and click the "Scrape" button</p>
+                    <p>1. On EduRec, go to <b>"Select Tutorials/Labs"</b> and select your classes</p>
+                    <p>2. Click <b>"Rank Tutorials/Lab"</b>. Note that the functions below work only when this dialog is opened.</p>
+                    <p>3. Open this extension and click the <b>"Scrape"</b> button</p>
                     <p>4. Click and drag the rows below to reorder them</p>
-                    <p>5.</p>
+                    <p>5. Click <b>"Compare"</b> to see the differences in ranking indicated in <span style="color: red;">red</span></p>
+                    <p>6. Click <b>"Apply"</b> to automatically change rankings on EduRec to match your desired ranking</p>
+                    <p>🡭  opens this extension in a new tab</p>
+                    <p>❮   shifts the "Rank Tutorials/Lab" dialog to the left for easier viewing.</p>
                 </div>
             </div>
             <table 
