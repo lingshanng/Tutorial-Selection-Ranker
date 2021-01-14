@@ -20,7 +20,7 @@
 
     "content_scripts": [
         {
-            "matches": ["https://myedurec.nus.edu.sg/*", "file:///C:/Users/nglin/Downloads/*"],
+            "matches": ["https://myedurec.nus.edu.sg/*"],
             "js": ["content.js", "assets/js/jquery-3.5.1.min.js"],
             "css": ["content.css"]
         }
@@ -28,7 +28,6 @@
 
     "permissions": [
         "tabs",
-        "file:///C:/Users/nglin/Downloads/Rank%20Tutorials_Labs.html",
         "https://myedurec.nus.edu.sg/*",
         "storage"
     ]
