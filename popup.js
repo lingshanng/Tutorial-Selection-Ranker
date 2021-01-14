@@ -57,6 +57,11 @@ $(function(){
     $('#reset').click(function(){
         chrome.storage.sync.set({'allData': {'classes': [], 'activityColorMap': {}}});
     })
+    $('#compare').click(function(){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            chrome.tabs.sendMessage(tabs[0].id, {action: "compare"});
+        })
+    })
     $('#applyRanking').click(function(){
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
             chrome.tabs.sendMessage(tabs[0].id, {action: "applyRanking"});
@@ -122,7 +127,7 @@ function updateTable(classData, activityColorMap) {
         },
         {
             field: 'activity',
-            title: 'Activity',
+            title: 'Module Activity',
             width: 100
         },
         {
