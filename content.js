@@ -91,5 +91,31 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
                 }
             })
         })
+    } else if (request.action === "test") {
+        console.log(testData);
+        // const iframeDoc = document.querySelector("iframe");
+        // if(iframeDoc) {
+        //     const rows = iframeDoc.contentDocument.querySelectorAll("table tbody .ps_grid-row");
+        //     rows.forEach((row, i) => {
+        //         const grids = row.querySelectorAll(".ps_grid-cell");
+        //         grids[0].innerText = testData[i].classId;
+        //         grids[1].innerText = testData[i].activity;
+        //         grids[2].innerText = testData[i].session;
+        //         grids[3].innerText = testData[i].vacancy;
+        //     })
+        // } else {
+            // const rows = document.querySelectorAll("table tbody .ps_grid-row");
+            // rows.forEach((row, i) => {
+            //     const grids = row.querySelectorAll(".ps_grid-cell");
+            //     const infoLink = row.querySelector(".ps-link").href;
+            //     console.log(infoLink);
+            //     grids[1].innerText = testData[i].classId;
+            //     grids[2].innerText = testData[i].activity;
+            //     grids[3].innerText = testData[i].session;
+            //     grids[4].innerText = testData[i].vacancy;
+            // })
+            // window.location.href="javascript:submitAction_win2(document.win2,'CLASS_DESCR$0');"
+        // }
+        chrome.storage.sync.set({'allData': {'classes': testData, 'activityColorMap': {}}});
     }
 });

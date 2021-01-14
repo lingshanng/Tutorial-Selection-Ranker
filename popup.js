@@ -42,7 +42,12 @@ $(function(){
     })
 
     
-    
+    $('#test').click(function(){
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            console.log(tabs);
+            chrome.tabs.sendMessage(tabs[0].id, {action: "test"});
+        })
+    });
     $('#scrape').click(function(){
         const url = "https://myedurec.nus.edu.sg/*";
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){

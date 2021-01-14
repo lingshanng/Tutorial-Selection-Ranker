@@ -1,128 +1,65 @@
 const testData = [
     {
-        "classId": "E02",
+        "classId": "T - T13 - 2892",
         "activity": "CS2100 Tutorial",
         "session": "Regular",
         "vacancy": "20",
         "rank": 1
     },
     {
-        "classId": "T03",
-        "activity": "CS2030s Rec",
+        "classId": "B - B15 - 13298",
+        "activity": "CS2100 Laboratory",
         "session": "Regular",
-        "vacancy": "14",
+        "vacancy": "22",
         "rank": 2
     },
     {
-        "classId": "E04",
-        "activity": "CS2100 Tutorial",
-        "session": "Regular",
-        "vacancy": "30",
-        "rank": 3
-    },
-    {
-        "classId": "G12",
+        "classId": "T - TD31 - 12647",
         "activity": "GEQ1000 Tutorial",
         "session": "Regular",
-        "vacancy": "22",
+        "vacancy": "24",
+        "rank": 3
+    },
+    {
+        "classId": "R - R09 - 13316",
+        "activity": "CS2030S Recitation",
+        "session": "Regular",
+        "vacancy": "30",
         "rank": 4
     },
     {
-        "classId": "E02",
+        "classId": "B - B14B - 13210",
+        "activity": "CS2030S Laboratory",
+        "session": "Regular",
+        "vacancy": "12",
+        "rank": 5
+    },
+    {
+        "classId": "T - T04 - 12345",
         "activity": "MA1101R Tutorial",
         "session": "Regular",
-        "vacancy": "20",
-        "rank": 1
-    },
-    {
-        "classId": "T03",
-        "activity": "CS2044s Rec",
-        "session": "Regular",
-        "vacancy": "14",
-        "rank": 2
-    },
-    {
-        "classId": "E04",
-        "activity": "CS1101 Tutorial",
-        "session": "Regular",
         "vacancy": "30",
-        "rank": 3
+        "rank": 6
     },
     {
-        "classId": "G12",
-        "activity": "MA1521 Tutorial",
-        "session": "Regular",
-        "vacancy": "22",
-        "rank": 4
-    },
-    {
-        "classId": "E02",
-        "activity": "CS3100 Tutorial",
+        "classId": "T - T01 - 2748",
+        "activity": "CS2100 Tutorial",
         "session": "Regular",
         "vacancy": "20",
-        "rank": 1
+        "rank": 7
     },
     {
-        "classId": "T03",
-        "activity": "ST1124 Rec",
+        "classId": "T - TD35 - 12651",
+        "activity": "GEQ1000 Tutorial",
         "session": "Regular",
-        "vacancy": "14",
-        "rank": 2
+        "vacancy": "24",
+        "rank": 8
     },
     {
-        "classId": "E04",
-        "activity": "ST1322 Tutorial",
-        "session": "Regular",
-        "vacancy": "30",
-        "rank": 3
-    },
-    {
-        "classId": "G12",
-        "activity": "GER1000 Tutorial",
-        "session": "Regular",
-        "vacancy": "22",
-        "rank": 4
-    },
-    {
-        "classId": "E02",
-        "activity": "MA2001 Lab",
-        "session": "Regular",
-        "vacancy": "20",
-        "rank": 1
-    },
-    {
-        "classId": "T03",
-        "activity": "CS2044s lab",
-        "session": "Regular",
-        "vacancy": "14",
-        "rank": 2
-    },
-    {
-        "classId": "E04",
-        "activity": "CS1101S Lab",
+        "classId": "R - R10 - 13317",
+        "activity": "CS2030S Recitation",
         "session": "Regular",
         "vacancy": "30",
-        "rank": 3
-    },
-    {
-        "classId": "G12",
-        "activity": "IS1103 Tutorial",
-        "session": "Regular",
-        "vacancy": "22",
-        "rank": 4
+        "rank": 9
     }
 ]
-
-
-$('.sp-palette-row-4:first').children().each(function(i) {
-    colorList.push($(this).attr('title'));
-}); 
-$('.sp-palette-row-1:first').children().each(function(i) {
-    colorList.push($(this).attr('title'));
-}); 
-$('.sp-palette-row-2:first').children().each(function() {
-    colorList.push($(this).attr('title'));
-}); 
-$('.sp-palette-row-3:first').children().each(function() {
-    colorList.push($(this).attr('title'));
-}); 
