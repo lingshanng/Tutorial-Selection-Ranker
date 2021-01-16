@@ -118,7 +118,9 @@ function initialiseTables() {
             {
                 field: 'classId',
                 title: 'Class',
-                width: 100
+                width: 100,
+                formatter: classIdFormatter,
+                events: window.operateEvents,
             },
             {
                 field: 'activity',
@@ -268,6 +270,13 @@ function colorColStyle(value, row, index) {
     }
 }
 
+function classIdFormatter(value, row, index) {
+    return ['<a class="open-descr" href="#" />'
+        + value
+        + '</a>'
+    ].join('')
+}
+
 function rankFormatter(value, row, index) {
     return '✕'
 }
@@ -287,6 +296,12 @@ function removedOperateFormatter(value, row, index) {
 }
 
 window.operateEvents = {
+    'click .open-descr': function (e, value, row, index) {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "test" });
+        })
+        chrome.tabs.sendMessage(tabs[0].id, { action: "description", message: {classId: row.classId} });
+    },
     'click .del-btn': function (e, value, row, index) {
         // console.log(_classData, row);
         _allData.removed.push(row);

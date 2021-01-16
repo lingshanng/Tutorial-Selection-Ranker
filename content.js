@@ -116,11 +116,31 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         //     grids[3].innerText = testData[i].session;
         //     grids[4].innerText = testData[i].vacancy;
         // })
-        // window.location.href="javascript:submitAction_win2(document.win2,'CLASS_DESCR$0');"
-        // }
 
         // load testData directly
 
-        chrome.storage.sync.set({ 'allData': { 'classes': testData, 'activityColorMap': {} } });
+        chrome.storage.sync.set({ 'allData': { 'classes': testData, 'removed': [], 'activityColorMap': {} } });
+    } else if (request.action === "description") {
+        var doc = document;
+        var iframeDoc = document.querySelector("iframe");
+        if(iframeDoc) {
+            doc = iframeDoc.contentDocument;
+        }
+
+        const rows = doc.querySelectorAll("table tbody .ps_grid-row");
+        for(i=0; i < rows.length; i++) {
+            var row = rows[i];
+            var x = 0;
+            if(!iframeDoc) {
+                x = 1;
+            }
+            var grids = row.querySelectorAll(".ps_grid-cell");
+            if(grids[x].innerText === request.message.classId) {
+                var descrLink = row.querySelector(".ps-link");
+                descrLink.click();
+                break;
+            }
+        }
     }
 });
+
