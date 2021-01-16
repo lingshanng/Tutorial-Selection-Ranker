@@ -298,9 +298,8 @@ function removedOperateFormatter(value, row, index) {
 window.operateEvents = {
     'click .open-descr': function (e, value, row, index) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { action: "test" });
+            chrome.tabs.sendMessage(tabs[0].id, { action: "description", message: {classId: row.classId} });
         })
-        chrome.tabs.sendMessage(tabs[0].id, { action: "description", message: {classId: row.classId} });
     },
     'click .del-btn': function (e, value, row, index) {
         // console.log(_classData, row);
