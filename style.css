@@ -1,7 +1,9 @@
 body {
     min-width: 800px;
+    max-width: 1200px;
     min-height: 500px;
     padding: 10px;
+    align-items: center;
 }
 
 .button-group > button {
@@ -15,4 +17,26 @@ body {
 
 table {
     font-size: 14px;
+}
+
+.ops {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-xs {
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+}
+
+.del-btn {
+    font-weight: bold;
+}
+
+
+.add-btn {
+    height: 1.5rem;
+    font-size: 1.25rem;
 }

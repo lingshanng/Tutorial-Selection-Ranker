@@ -1,6 +1,6 @@
 // used in functions which can't use chrome.storage.sync.get e.g rowStyle
-var _activityColorMap = {};
-var _classData = [];
+
+var _allData = { 'classes': [], 'removed':[], 'activityColorMap': {} };
 
 $(function () {
     $('#hidden-picker').spectrum({
@@ -15,18 +15,18 @@ $(function () {
     chrome.storage.sync.get(function (data) {
         console.log(data);
         if (!data.allData || !data.allData.classes) {
-            chrome.storage.sync.set({ 'allData': { 'classes': [], 'activityColorMap': {} } })
+            chrome.storage.sync.set({ 'allData': { 'classes': [], 'removed': [], 'activityColorMap': {} } });
         } else {
-            _activityColorMap = data.allData.activityColorMap;
-            _classData = data.allData.classes;
-            updateTable(data.allData.classes, data.allData.activityColorMap);
+            _activityColorMap = data.activityColorMap
+            _allData = data.allData;
+            initialiseTables();
+            updateTable(data.allData.classes, data.allData.removed, data.allData.activityColorMap);
         }
     })
 
 
     $('#test').click(function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            console.log(tabs);
             chrome.tabs.sendMessage(tabs[0].id, { action: "test" });
         })
     });
@@ -34,7 +34,6 @@ $(function () {
         const url = "https://myedurec.nus.edu.sg/*";
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             if (tabs && tabs.length !== 0) {
-                console.log('tabs', tabs)
                 chrome.tabs.sendMessage(tabs[0].id, { action: "clickScrape" });
             } else {
                 console.log('wrong tab')
@@ -42,7 +41,7 @@ $(function () {
         })
     });
     $('#reset').click(function () {
-        chrome.storage.sync.set({ 'allData': { 'classes': [], 'activityColorMap': {} } });
+        chrome.storage.sync.set({ 'allData': { 'classes': [], 'removed': [], 'activityColorMap': {} } });
     })
     $('#compare').click(function () {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -72,12 +71,15 @@ $(function () {
         newRankedClasses.forEach((item, i) => {
             item.rank = i + 1;
         })
-        chrome.storage.sync.set({ 'allData': { 'classes': newRankedClasses, 'activityColorMap': _activityColorMap } });
+        _allData.classes = newRankedClasses;
+        chrome.storage.sync.set({ 'allData': _allData });
     });
 });
 
-function updateActivityColorMap(classData, activityColorMap) {
-    const currActs = [...new Set(classData.map(d => d.activity))];
+
+function updateActivityColorMap(classData, removedData, activityColorMap) {
+    console.log('activityColorMap::',activityColorMap)
+    const currActs = [...new Set(classData.concat(removedData).map(d => d.activity))];
     const coloredActs = Object.keys(activityColorMap);
     const toRemove = coloredActs.filter(act => !currActs.includes(act));
     const toAdd = currActs.filter(act => !coloredActs.includes(act));
@@ -100,19 +102,19 @@ function updateActivityColorMap(classData, activityColorMap) {
 
     colorList.reverse()
     const usedColors = Object.values(activityColorMap);
-    console.log(usedColors)
     colorList = colorList.filter(c => !usedColors.includes(c));
     toAdd.forEach((activity, i) => {
         var color = colorList.pop();
         activityColorMap[activity] = color;
     })
-    chrome.storage.sync.set({ 'allData': { 'classes': classData, 'activityColorMap': activityColorMap } });
+    console.log(activityColorMap);
+    _allData.activityColorMap = activityColorMap;
+    chrome.storage.sync.set({ 'allData': _allData });
 }
 
-function updateTable(classData, activityColorMap) {
-    $('#classTable').bootstrapTable('destroy');
-    $('#classTable').bootstrapTable({
-        data: classData, columns: [
+function initialiseTables() {
+    $('#classTable').bootstrapTable('destroy').bootstrapTable({
+        columns: [
             {
                 field: 'classId',
                 title: 'Class',
@@ -139,14 +141,63 @@ function updateTable(classData, activityColorMap) {
                 width: 50
             },
             {
-                field: 'color',
-                title: 'Color',
+                field: 'operate',
+                title: '',
                 width: 50,
-                formatter: colorPickerFormatter,
+                clickToSelect: false,
+                events: window.operateEvents,
+                formatter: operateFormatter,
                 cellStyle: colorColStyle,
             }],
-        theadClasses: 'thead-dark'
+        theadClasses: 'thead-dark',
+        rowStyle: rowStyle
     });
+
+    $('#removedTable').bootstrapTable('destroy').bootstrapTable({
+        columns: [
+            {
+                field: 'classId',
+                title: 'Class',
+                width: 100
+            },
+            {
+                field: 'activity',
+                title: 'Module Activity',
+                width: 100
+            },
+            {
+                field: 'session',
+                title: 'Session',
+                width: 50
+            },
+            {
+                field: 'vacancy',
+                title: 'Vacancy',
+                width: 50
+            },
+            {
+                field: 'rank',
+                title: 'Rank',
+                width: 50,
+                formatter: rankFormatter
+            },
+            {
+                field: 'operate',
+                title: 'Actions',
+                width: 50,
+                clickToSelect: false,
+                events: window.operateEvents,
+                formatter: removedOperateFormatter,
+                cellStyle: colorColStyle,
+            }],
+        theadClasses: 'thead-dark',
+        rowStyle: rowStyle
+    });
+}
+
+function updateTable(classData, removedData, activityColorMap) {
+    $('#classTable').bootstrapTable('load', classData);
+    $('#removedTable').bootstrapTable('load', removedData);
 
     $('.color-picker').spectrum({
         type: "color",
@@ -165,8 +216,8 @@ function updateTable(classData, activityColorMap) {
             })
         }
     });
-    $('.color-picker').each(function (i, element) {
-        $(element).spectrum("set", activityColorMap[classData[i].activity])
+    $('.color-picker').each(function (i, el) {
+        $(el).spectrum("set", activityColorMap[classData[i].activity])
     })
 }
 
@@ -189,11 +240,22 @@ function textColor(hex) {
 
 
 function rowStyle(row, index) {
-    var bgdColor = _activityColorMap[row.activity];
+    var bgdColor = "white";
+    if(_allData.activityColorMap && _allData.activityColorMap[row.activity]) {
+        bgdColor = _allData.activityColorMap[row.activity];
+    }
     return {
         css: {
             'background-color': bgdColor,
             color: textColor(bgdColor)
+        }
+    }
+}
+
+function removedRowStyle(row, index) {
+    return {
+        css: {
+            'background-color': "white",
         }
     }
 }
@@ -206,16 +268,50 @@ function colorColStyle(value, row, index) {
     }
 }
 
-function colorPickerFormatter(value, row, index) {
-    return '<input class="color-picker" />'
+function rankFormatter(value, row, index) {
+    return '✕'
+}
+function operateFormatter(value, row, index) {
+    console.log('operate')
+    return ['<div class="ops">'
+        + '<input class="color-picker" />'
+        + '<button type="button" class="btn btn-outline-danger btn-xs del-btn" title="Delete">✕</button>'
+        + '</div>'
+    ].join('')
+}
+function removedOperateFormatter(value, row, index) {
+    return ['<div class="ops">'
+        + '<button type="button" class="btn btn-outline-danger btn-xs add-btn" title="Add">＋</button>'
+        + '</div>'
+    ].join('')
+}
+
+window.operateEvents = {
+    'click .del-btn': function (e, value, row, index) {
+        // console.log(_classData, row);
+        _allData.removed.push(row);
+        _allData.classes = _allData.classes.filter(d => d.classId != row.classId);
+        _allData.classes.forEach((item, i) => {
+            item.rank = i + 1;
+        });
+        chrome.storage.sync.set({ 'allData': _allData });
+    },
+    'click .add-btn': function (e, value, row, index) {
+        _allData.classes.push(row);
+        _allData.removed = _allData.removed.filter(d => d.classId != row.classId);
+        _allData.classes.forEach((item, i) => {
+            item.rank = i + 1;
+        });
+        chrome.storage.sync.set({ 'allData': _allData });
+    }
 }
 
 chrome.storage.onChanged.addListener(function (changes, storageName) {
-    if (changes.allData.newValue) {
-        console.log('storage changed', changes.allData.newValue);
-        _activityColorMap = changes.allData.newValue.activityColorMap;
-        _classData = changes.allData.newValue.classes;
-        updateActivityColorMap(changes.allData.newValue.classes, changes.allData.newValue.activityColorMap);
-        updateTable(changes.allData.newValue.classes, changes.allData.newValue.activityColorMap);
+    var allData = changes.allData.newValue; 
+    if (allData) {
+        console.log('storage changed', allData);
+        _allData = allData;
+        updateActivityColorMap(allData.classes, allData.removed, allData.activityColorMap);
+        updateTable(allData.classes, allData.removed, allData.activityColorMap);
     }
 });
