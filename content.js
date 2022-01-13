@@ -110,7 +110,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       var grids = row.querySelectorAll(".ps_grid-cell");
       if (grids[x].innerText == request.message.classId) {
         var descrLink = row.querySelector(".ps-link");
-        descrLink.trigger("click");
+        descrLink.click();
         break;
       }
     }
