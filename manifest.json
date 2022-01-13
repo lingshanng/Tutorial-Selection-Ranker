@@ -10,17 +10,16 @@
   },
   "browser_action": {
     "default_icon": "assets/img/icon16.png",
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   },
   "background": {
-    "scripts": ["eventPage.js"],
+    "scripts": ["src/eventPage.js"],
     "persistent": false
   },
   "content_scripts": [
     {
-      "matches": ["https://myedurec.nus.edu.sg/*", "file:///*"],
-      "js": ["testData.js", "content.js", "assets/js/jquery.min.js"],
-      "css": ["content.css"]
+      "matches": ["https://myedurec.nus.edu.sg/*"],
+      "js": ["src/testData.js", "src/content.js", "assets/js/jquery.min.js"]
     }
   ],
   "permissions": ["tabs", "https://myedurec.nus.edu.sg/*", "storage"]
