@@ -1,8 +1,9 @@
-# Tutorial Selection Ranker
- Chrome extension that make it easy to rank tutorial/lab classes on EduRec for NUS students
+# Tutorial Selection Ranker Chrome Extension
 
-All features at a glance:
-![all-features](/gifs/full-process.gif)
+Chrome extension that make it easy to rank tutorial/lab classes on EduRec for NUS students.
+
+Scrape the list of tutorials to rank
+![scrape](/demo/scrape.mp4)
 
 Rank your selected tutorial slots:
 ![scrape-rerank](/gifs/scrape-rerank.gif)
