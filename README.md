@@ -1,6 +1,6 @@
 # Tutorial Selection Ranker Chrome Extension
 
-Chrome extension that make it easy to rank tutorial/lab classes on EduRec for NUS students.
+Chrome extension that makes it easy to rank tutorial/lab classes on EduRec for NUS students.
 
 ## How to use
 
