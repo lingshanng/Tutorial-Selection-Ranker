@@ -2,7 +2,13 @@
 
 Chrome extension that makes it easy to rank tutorial/lab classes on EduRec for NUS students.
 
-## How to use
+## Setup
+
+1. Download this github repository
+2. Go to `chrome://extensions`
+3. Click "Load unpacked" and select the downloaded folder
+
+## Features
 
 ### Scrape the list of lessons from EduRec
 ![scrape](/gifs/scrape.gif)
