@@ -21,11 +21,7 @@ $(function () {
       _activityColorMap = data.allData.activityColorMap;
       _allData = data.allData;
       initialiseTables();
-      updateTable(
-        data.allData.classes,
-        data.allData.removed,
-        data.allData.activityColorMap
-      );
+      updateTable(data.allData.classes, data.allData.removed, data.allData.activityColorMap);
     }
   });
 
@@ -80,9 +76,7 @@ $(function () {
 });
 
 function updateActivityColorMap(classData, removedData, activityColorMap) {
-  const currActs = [
-    ...new Set(classData.concat(removedData).map((d) => d.activity)),
-  ];
+  const currActs = [...new Set(classData.concat(removedData).map((d) => d.activity))];
   const coloredActs = Object.keys(activityColorMap);
   const toRemove = coloredActs.filter((act) => !currActs.includes(act));
   const toAdd = currActs.filter((act) => !coloredActs.includes(act));
@@ -93,24 +87,16 @@ function updateActivityColorMap(classData, removedData, activityColorMap) {
     delete activityColorMap[act];
   });
   var colorList = [];
-  $.each(
-    [
-      ".sp-palette-row-3",
-      ".sp-palette-row-4",
-      ".sp-palette-row-3",
-      ".sp-palette-row-1",
-    ],
-    function (i, selector) {
-      var el = $(selector);
-      if (el.length) {
-        el.first()
-          .children()
-          .each(function () {
-            colorList.push($(this).attr("title"));
-          });
-      }
+  $.each([".sp-palette-row-3", ".sp-palette-row-4", ".sp-palette-row-3", ".sp-palette-row-1"], function (i, selector) {
+    var el = $(selector);
+    if (el.length) {
+      el.first()
+        .children()
+        .each(function () {
+          colorList.push($(this).attr("title"));
+        });
     }
-  );
+  });
 
   colorList.reverse();
   const usedColors = Object.values(activityColorMap);
@@ -255,9 +241,7 @@ function hexToRgb(hex) {
 
 function textColor(hex) {
   const rgb = hexToRgb(hex);
-  return rgb && rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114 < 135
-    ? "#ffffff"
-    : "#000000";
+  return rgb && rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114 < 135 ? "#ffffff" : "#000000";
 }
 
 function activityCellStyle(value, row, index, field) {
@@ -298,19 +282,12 @@ function rankFormatter(value, row, index) {
 }
 
 function operateFormatter(value, row, index) {
-  return [
-    '<div class="ops">' +
-      '<input class="color-picker" />' +
-      '<button type="button" class="btn btn-outline-danger btn-xs del-btn" title="Delete">✕</button>' +
-      "</div>",
-  ].join("");
+  return ['<div class="ops">' + '<input class="color-picker" />' + '<button type="button" class="btn btn-outline-danger btn-xs del-btn" title="Delete">✕</button>' + "</div>"].join(
+    ""
+  );
 }
 function removedOperateFormatter(value, row, index) {
-  return [
-    '<div class="ops">' +
-      '<button type="button" class="btn btn-outline-danger btn-xs add-btn" title="Add">＋</button>' +
-      "</div>",
-  ].join("");
+  return ['<div class="ops">' + '<button type="button" class="btn btn-outline-danger btn-xs add-btn" title="Add">＋</button>' + "</div>"].join("");
 }
 
 window.operateEvents = {
@@ -344,11 +321,7 @@ chrome.storage.onChanged.addListener(function (changes, storageName) {
   var allData = changes.allData.newValue;
   if (allData) {
     _allData = allData;
-    updateActivityColorMap(
-      allData.classes,
-      allData.removed,
-      allData.activityColorMap
-    );
+    updateActivityColorMap(allData.classes, allData.removed, allData.activityColorMap);
     updateTable(allData.classes, allData.removed, allData.activityColorMap);
   }
 });
