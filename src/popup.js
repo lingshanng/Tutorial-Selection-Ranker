@@ -1,5 +1,3 @@
-// used in functions which can't use chrome.storage.sync.get e.g rowStyle
-
 var _allData = { classes: [], removed: [], activityColorMap: {} };
 
 $(function () {
@@ -84,7 +82,7 @@ function updateActivityColorMap(classData, removedData, activityColorMap) {
   const coloredActs = Object.keys(activityColorMap);
   const toRemove = coloredActs.filter((act) => !currActs.includes(act));
   const toAdd = currActs.filter((act) => !coloredActs.includes(act));
-  if (toRemove === [] && toAdd === []) {
+  if (toRemove == [] && toAdd == []) {
     return;
   }
   toRemove.forEach(function (act) {
