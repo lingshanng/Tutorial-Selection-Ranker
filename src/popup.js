@@ -53,7 +53,11 @@ $(function () {
     });
   });
   $("#openWindow").on("click", function () {
-    chrome.tabs.create({ url: chrome.extension.getURL("popup.html#window") });
+    chrome.windows.create({
+      url: chrome.runtime.getURL("src/popup.html"),
+      type: "popup",
+      focused: true,
+    });
   });
   $("#shiftDialog").on("click", function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
