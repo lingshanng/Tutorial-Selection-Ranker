@@ -21,6 +21,6 @@
       "js": ["src/testData.js", "src/content.js", "assets/js/jquery.min.js"]
     }
   ],
-  "permissions": ["tabs", "storage"],
+  "permissions": ["storage"],
   "host_permissions": ["https://myedurec.nus.edu.sg/*"]
 }
